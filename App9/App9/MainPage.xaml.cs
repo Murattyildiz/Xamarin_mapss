@@ -24,12 +24,14 @@ namespace App9
 
             if (AuthenticateUser(enteredUsername, enteredPassword))
             {
+                App.LoggedInUser = enteredUsername; // Giriş yapan kullanıcı adı kaydediliyor
                 await Navigation.PushAsync(new MapPage());
             }
             else
             {
                 await DisplayAlert("Hata", "Kullanıcı adı veya şifre yanlış.", "Tamam");
             }
+
         }
 
         private bool AuthenticateUser(string username, string password)

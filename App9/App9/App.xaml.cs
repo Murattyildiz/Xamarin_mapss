@@ -6,6 +6,7 @@ namespace App9
 {
     public partial class App : Application
     {
+        public static string LoggedInUser { get; set; } = string.Empty;
         public App()
         {
             InitializeComponent();

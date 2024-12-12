@@ -296,31 +296,41 @@ namespace App9
                 foreach (var line in lines)
                 {
                     var parts = line.Split(',');
-                    if (parts.Length >= 3 && double.TryParse(parts[0], out double lat) && double.TryParse(parts[1], out double lng))
-                    {
-                        var existingPin = customPins.FirstOrDefault(p => Math.Abs(p.Position.Latitude - lat) < 0.0001 && Math.Abs(p.Position.Longitude - lng) < 0.0001);
+                    if (parts.Length < 2) continue;
 
-                        if (existingPin == null)
+                    if (parts[0] == "PIN" && parts.Length >= 5)
+                    {
+                        // Pin bilgileri
+                        if (double.TryParse(parts[1], out double lat) && double.TryParse(parts[2], out double lng))
                         {
-                            existingPin = new CustomPin
+                            var pin = new CustomPin
                             {
                                 Position = new Position(lat, lng),
-                                Label = parts[2],
-                                Type = PinType.Place,
-                                UserName = parts.Length > 3 ? parts[3] : "Kullanıcı Adı"
+                                Label = parts[3],
+                                UserName = parts[4],
+                                Type = PinType.Place
                             };
-                            customPins.Add(existingPin);
-                            map.Pins.Add(existingPin);
-                            existingPin.Clicked += OnPinClicked;
+                            customPins.Add(pin);
+                            map.Pins.Add(pin);
+                            pin.Clicked += OnPinClicked;
                         }
-
-                        if (parts.Length > 4)
+                    }
+                    else if (parts[0] == "MESSAGE" && parts.Length >= 5)
+                    {
+                        // Mesaj bilgileri
+                        if (double.TryParse(parts[1], out double lat) && double.TryParse(parts[2], out double lng))
                         {
-                            existingPin.Messages.Add(new PinMessage
+                            var pin = customPins.FirstOrDefault(p =>
+                                Math.Abs(p.Position.Latitude - lat) < 0.0001 &&
+                                Math.Abs(p.Position.Longitude - lng) < 0.0001);
+                            if (pin != null)
                             {
-                                UserName = parts[3],
-                                Text = parts[4]
-                            });
+                                pin.Messages.Add(new PinMessage
+                                {
+                                    UserName = parts[3],
+                                    Text = parts[4]
+                                });
+                            }
                         }
                     }
                 }
@@ -332,6 +342,7 @@ namespace App9
             }
         }
 
+
         private void SavePinsAndMessagesToFile()
         {
             try
@@ -340,10 +351,13 @@ namespace App9
                 {
                     foreach (var pin in customPins)
                     {
-                        writer.WriteLine($"{pin.Position.Latitude},{pin.Position.Longitude},{pin.Label},{pin.UserName}");
+                        // İlk satırda pin bilgileri
+                        writer.WriteLine($"PIN,{pin.Position.Latitude},{pin.Position.Longitude},{pin.Label},{pin.UserName}");
+
+                        // Mesajlar ayrı satırda tutuluyor
                         foreach (var message in pin.Messages)
                         {
-                            writer.WriteLine($"{pin.Position.Latitude},{pin.Position.Longitude},{message.UserName},{message.Text}");
+                            writer.WriteLine($"MESSAGE,{pin.Position.Latitude},{pin.Position.Longitude},{message.UserName},{message.Text}");
                         }
                     }
                 }
@@ -354,6 +368,7 @@ namespace App9
                 System.Diagnostics.Debug.WriteLine($"Pin ve mesaj kaydetme hatası: {ex.Message}");
             }
         }
+
 
         private void DrawRouteBetweenPins(CustomPin start, CustomPin end)
         {
@@ -381,13 +396,14 @@ namespace App9
                 pin.Messages.Add(new PinMessage
                 {
                     Text = messageText,
-                    UserName = "Kullanıcı Adı"
+                    UserName = App.LoggedInUser // Kullanıcı adı otomatik ekleniyor
                 });
 
                 SavePinsAndMessagesToFile();
                 await DisplayAlert("Bilgi", "Mesaj başarıyla eklendi.", "Tamam");
             }
         }
+
 
         public class CustomPin : Pin
         {
