@@ -99,10 +99,10 @@ namespace App9
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Map initialization error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Harita başlatma hatası: {ex.Message}");
                 if (ex.InnerException != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                    System.Diagnostics.Debug.WriteLine($"İçsel hata: {ex.InnerException.Message}");
                 }
                 throw;
             }
@@ -156,7 +156,7 @@ namespace App9
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Hata", $"Adres aramada hata oluştu: {ex.Message}", "Tamam");
+                await DisplayAlert("Hata", $"Adres arama hatası: {ex.Message}", "Tamam");
             }
         }
 
@@ -334,7 +334,7 @@ namespace App9
                         }
                     }
                 }
-                System.Diagnostics.Debug.WriteLine($"Loaded {customPins.Count} pins with messages.");
+                System.Diagnostics.Debug.WriteLine($"Yüklendi {customPins.Count} pin ve mesajları.");
             }
             catch (Exception ex)
             {
@@ -419,4 +419,3 @@ namespace App9
         }
     }
 }
-
