@@ -281,7 +281,7 @@ namespace App9
                 await AddMessageToPin(pin);
             }
         }
-
+        //
         private void LoadPinsAndMessagesFromFile()
         {
             if (!File.Exists(filePath))
@@ -341,7 +341,21 @@ namespace App9
                 System.Diagnostics.Debug.WriteLine($"Pinleri ve mesajları yükleme hatası: {ex.Message}");
             }
         }
+        private async Task AddMessageToPin(CustomPin pin)
+        {
+            string messageText = await DisplayPromptAsync("Yeni Mesaj", "Mesajınızı girin:");
+            if (!string.IsNullOrEmpty(messageText))
+            {
+                pin.Messages.Add(new PinMessage
+                {
+                    Text = messageText,
+                    UserName = App.LoggedInUser // Kullanıcı adı otomatik ekleniyor
+                });
 
+                SavePinsAndMessagesToFile();
+                await DisplayAlert("Bilgi", "Mesaj başarıyla eklendi.", "Tamam");
+            }
+        }
 
         private void SavePinsAndMessagesToFile()
         {
@@ -369,7 +383,6 @@ namespace App9
             }
         }
 
-
         private void DrawRouteBetweenPins(CustomPin start, CustomPin end)
         {
             if (routePolyline != null)
@@ -387,24 +400,6 @@ namespace App9
             routePolyline.Geopath.Add(end.Position);
             map.MapElements.Add(routePolyline);
         }
-
-        private async Task AddMessageToPin(CustomPin pin)
-        {
-            string messageText = await DisplayPromptAsync("Yeni Mesaj", "Mesajınızı girin:");
-            if (!string.IsNullOrEmpty(messageText))
-            {
-                pin.Messages.Add(new PinMessage
-                {
-                    Text = messageText,
-                    UserName = App.LoggedInUser // Kullanıcı adı otomatik ekleniyor
-                });
-
-                SavePinsAndMessagesToFile();
-                await DisplayAlert("Bilgi", "Mesaj başarıyla eklendi.", "Tamam");
-            }
-        }
-
-
         public class CustomPin : Pin
         {
             public string UserName { get; set; }
