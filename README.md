@@ -13,3 +13,17 @@
 
 # Pinlerin liste halinde görüldüğü sayfa
 ![resim4](https://github.com/user-attachments/assets/9fbee238-e58b-4bc3-8c8a-e31b43e5d2e2)
+
+
+# Mesajlar sekmesi
+![resim6](https://github.com/user-attachments/assets/05be6c8b-9c42-4f03-9296-ce402d818123)
+
+# Mesajların gözükmesi
+![resim5](https://github.com/user-attachments/assets/9a6d756e-50ec-4423-8f94-735519d6be55)
+
+
+# Özel Konuma mesaj girmek
+![resim7](https://github.com/user-attachments/assets/af606c63-e549-421f-b010-881deb07607e)
+
+
+
