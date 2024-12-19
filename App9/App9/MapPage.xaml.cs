@@ -214,7 +214,7 @@ namespace App9
                     PinColor = Color.Green
                 };
                 map.Pins.Add(startPin);
-                startPin.Clicked += OnPinClicked;
+                startPin.MarkerClicked += OnPinClicked;
                 isSelectingStart = false;
                 await DisplayAlert("Bilgi", "Başlangıç noktası seçildi", "Tamam");
             }
@@ -312,7 +312,7 @@ namespace App9
                             };
                             customPins.Add(pin);
                             map.Pins.Add(pin);
-                            pin.Clicked += OnPinClicked;
+                            pin.MarkerClicked += OnPinClicked;
                         }
                     }
                     else if (parts[0] == "MESSAGE" && parts.Length >= 5)
