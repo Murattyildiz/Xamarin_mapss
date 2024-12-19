@@ -146,7 +146,7 @@ namespace App9
 
                     map.Pins.Add(pin);
                     customPins.Add(pin);
-                    pin.Clicked += OnPinClicked;
+                    pin.MarkerClicked += OnPinClicked;
                     SavePinsAndMessagesToFile();
                 }
                 else
@@ -232,7 +232,7 @@ namespace App9
                     PinColor = Color.Red
                 };
                 map.Pins.Add(endPin);
-                endPin.Clicked += OnPinClicked;
+                endPin.MarkerClicked += OnPinClicked;
                 isSelectingEnd = false;
                 await DisplayAlert("Bilgi", "Bitiş noktası seçildi", "Tamam");
             }
@@ -252,7 +252,7 @@ namespace App9
 
                     map.Pins.Add(customPin);
                     customPins.Add(customPin);
-                    customPin.Clicked += OnPinClicked;
+                    customPin.MarkerClicked += OnPinClicked;
 
                     SavePinsAndMessagesToFile();
                     await AddMessageToPin(customPin);
